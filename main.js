@@ -11,11 +11,36 @@ let makeFunction = (event) =>{
     container.className = "todo-container"
     section.appendChild(container)
     
-    let todoText = document.createElement("input")
-    todoText.value = input.value
-    let length = todoText.value.length
+    let todoText = document.createElement("textarea") 
     todoText.classList = "todo-text"
     container.appendChild(todoText)
+
+    let todoTextValue = todoText.value = input.value
+    let todoTextLength = todoText.value.length
+    todoText.maxLength = 51
+    todoText.cols = 17
+    todoText.rows = 1
+
+    let rowsOninput = () =>{
+        let todoTextLength = todoText.value.length
+
+        if (todoTextLength > 34){
+            todoText.rows = 3
+            console.log(todoTextLength);
+        }
+        else if (todoTextLength > 17){
+            todoText.rows = 2
+            console.log(todoTextLength);
+        }
+        else if (todoTextLength > 1){
+            todoText.rows = 1
+            console.log(todoTextLength);
+        }
+    }
+
+    rowsOninput()
+    
+    todoText.addEventListener("input", rowsOninput)
     
     let buttonsContainer = document.createElement("div")
     buttonsContainer.classList = "buttons"
@@ -31,14 +56,18 @@ let makeFunction = (event) =>{
     checkbox.classList = "button"
     buttonsContainer.appendChild(checkbox)
     
-
     let delet = (event) =>{
         event.preventDefault()
-
+    
         container.remove()
     }
     
     trashBtn.addEventListener("click", delet)
+
+    checkbox.addEventListener("change", let = function () {
+        container.classList.toggle("completed-container", checkbox.checked)
+        todoText.classList.toggle("completed-text", checkbox.checked)
+    })
 }
 
 
